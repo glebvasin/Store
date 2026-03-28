@@ -1,0 +1,56 @@
+/* Card.module.scss */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #acbe94;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 300px;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Картинка */
+.cardImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Заголовок */
+.cardTitle {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Описание */
+.cardDescription {
+  font-size: 0.9rem;
+  color: #555555;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+/* Категория */
+.cardCategory {
+  font-weight: 600;
+  color: #333333;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Кнопка */
+.cardButton {
+  width: 100%;
+}

@@ -1,0 +1,27 @@
+FROM  cr.yandex/mirror/library/node:18 as builder
+
+COPY *.json ./
+COPY *.ts ./
+
+RUN npm i --force
+
+ARG REACT_APP_DEBUG="development"
+ARG REACT_APP_API_BASE_URL="http://localhost:8000/api/v2/"
+ARG REACT_APP_YANDEX_AUTH="https://oauth.yandex.ru/authorize?response_type=token&client_id=62da78941fdb494792a322dd42447fc4"
+ENV REACT_APP_DEBUG $REACT_APP_DEBUG
+ENV REACT_APP_API_BASE_URL $REACT_APP_API_BASE_URL
+ENV REACT_APP_YANDEX_AUTH $REACT_APP_YANDEX_AUTH
+
+COPY . .
+
+RUN npm run build
+RUN rm -rf node_modules
+
+FROM  cr.yandex/mirror/library/nginx:alpine
+
+LABEL service.name=frontend.billed.pro
+
+
+COPY --from=builder build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+CMD ["nginx-debug", "-g", "daemon off;"]
