@@ -15,7 +15,7 @@ const Header = ({setSearchTitle}: HeaderProps) => {
 
       <Search onSearch={setSearchTitle} />
 
-      <Button title="Корзина" />
+      <Button>Корзина</Button>
     </div>
   );
 };

@@ -24,8 +24,7 @@ const Search: React.FC<SearchProps> = ({onSearch}) => {
         placeholder="Поиск товара..."
         onChange={e => setQuery(e.target.value)}
       />
-      <input type="text" placeholder="Поиск товара..." />
-      <Button title="Search" onClick={handleSearch} />
+      <Button onClick={handleSearch}>Search</Button>
     </div>
   );
 };

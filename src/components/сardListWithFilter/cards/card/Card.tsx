@@ -18,7 +18,7 @@ const Card = ({title, description, category}: CardProps) => {
       <p className={styles.cardDescription}>{description}</p>
       <p className={styles.cardCategory}>Категория: {category}</p>
       <div className={styles.cardButton}>
-        <Button title="Купить" />
+        <Button>В корзину</Button>
       </div>
     </div>
   );

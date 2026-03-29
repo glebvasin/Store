@@ -2,15 +2,15 @@ import React from 'react';
 
 import styles from './button.module.scss';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLDivElement> {
-  title: string;
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode;
 }
 
-const Button = ({title, onClick}: ButtonProps) => {
+const Button = ({children, ...props}: ButtonProps) => {
   return (
-    <div className={styles.button} onClick={onClick}>
-      <button>{title}</button>
-    </div>
+    <button className={styles.button} {...props}>
+      {children}
+    </button>
   );
 };
 
