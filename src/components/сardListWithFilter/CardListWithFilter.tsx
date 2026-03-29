@@ -1,5 +1,6 @@
-// CardListWithFilter.tsx
 import React, {useState} from 'react';
+
+import BackButton from '@components/buttons/backButton/BackButton';
 
 import CategoryDropdown from '../dropdown/CategoryDropdown';
 
@@ -9,9 +10,10 @@ import {cards} from './cards/helper';
 
 interface CardListWithFilterProps {
   searchTitle: string;
+  setSearchTitle: (title: string) => void;
 }
 
-const CardListWithFilter = ({searchTitle}: CardListWithFilterProps) => {
+const CardListWithFilter = ({searchTitle, setSearchTitle}: CardListWithFilterProps) => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   // собираем уникальные категории из массива карточек
@@ -26,6 +28,18 @@ const CardListWithFilter = ({searchTitle}: CardListWithFilterProps) => {
   });
   return (
     <div>
+      {/* Кнопка НАЗАД  для ПОИСКА || КАТЕГОРИИ */}
+      <div className={styles.backButtonWrapper}>
+        {(searchTitle || selectedCategory) && (
+          <BackButton
+            onClick={() => {
+              setSearchTitle('');
+              setSelectedCategory('');
+            }}
+          />
+        )}
+      </div>
+
       <CategoryDropdown
         categories={categories}
         selected={selectedCategory}

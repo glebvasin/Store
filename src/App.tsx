@@ -9,8 +9,8 @@ const App = () => {
   const [searchTitle, setSearchTitle] = useState('');
   return (
     <div className={styles.app}>
-      <Header setSearchTitle={setSearchTitle} />
-      <CardListWithFilter searchTitle={searchTitle} />
+      <Header searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
+      <CardListWithFilter searchTitle={searchTitle} setSearchTitle={setSearchTitle} />
     </div>
   );
 };
