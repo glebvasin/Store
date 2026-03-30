@@ -1,3 +1,5 @@
+import {BrowserRouter} from 'react-router-dom';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -6,4 +8,8 @@ const root = document.getElementById('root');
 
 if (!root) throw new Error('Root not found');
 
-ReactDOM.createRoot(root).render(<App />);
+ReactDOM.createRoot(root).render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+);

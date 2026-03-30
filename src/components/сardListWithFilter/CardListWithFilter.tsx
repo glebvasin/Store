@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BackButton from '@components/buttons/backButton/BackButton';
+import Button from '@components/button/basic/Button';
 
 import CategoryDropdown from '../dropdown/CategoryDropdown';
 
@@ -48,12 +48,14 @@ const CardListWithFilter = ({
       {/* Кнопка НАЗАД  для ПОИСКА || КАТЕГОРИИ */}
       <div className={styles.backButtonWrapper}>
         {(searchTitle.trim() || selectedCategory) && (
-          <BackButton
+          <Button
+            className={styles.backButton}
             onClick={() => {
               setSearchTitle('');
               setSelectedCategory('');
-            }}
-          />
+            }}>
+            {'НАЗАД'}
+          </Button>
         )}
       </div>
 
