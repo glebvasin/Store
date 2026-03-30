@@ -18,6 +18,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+.cardHeader {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* Картинка */
 .cardImage {
   width: 100%;
@@ -32,6 +38,8 @@
   font-size: 1.2rem;
   margin-bottom: 10px;
   text-align: center;
+
+  white-space: nowrap;
 }
 
 /* Описание */
@@ -53,4 +61,5 @@
 /* Кнопка */
 .cardButton {
   width: 100%;
+  margin-top: auto;
 }

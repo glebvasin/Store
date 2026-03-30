@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import BackButton from '@components/buttons/backButton/BackButton';
 
@@ -6,23 +6,40 @@ import CategoryDropdown from '../dropdown/CategoryDropdown';
 
 import styles from './cardListWithFilter.module.scss';
 import Card from './cards/card/Card';
-import {cards} from './cards/helper';
 
+interface CardType {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  isFavorite: boolean;
+}
 interface CardListWithFilterProps {
   searchTitle: string;
   setSearchTitle: (title: string) => void;
+  selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
+  cards: CardType[];
+  toggleFavorite: (id: number) => void;
 }
 
-const CardListWithFilter = ({searchTitle, setSearchTitle}: CardListWithFilterProps) => {
-  const [selectedCategory, setSelectedCategory] = useState('');
-
+const CardListWithFilter = ({
+  searchTitle,
+  setSearchTitle,
+  selectedCategory,
+  setSelectedCategory,
+  cards,
+  toggleFavorite,
+}: CardListWithFilterProps) => {
   // собираем уникальные категории из массива карточек
-  const categories = Array.from(new Set(cards.map(card => card.category)));
+  const categories = Array.from(new Set(cards.map((card: CardType) => card.category)));
 
-  const filteredCards = cards.filter(card => {
+  const normalizedSearch = searchTitle.trim().toLowerCase();
+
+  const filteredCards = cards.filter((card: CardType) => {
     const matchCategory = selectedCategory ? card.category === selectedCategory : true;
-    const matchTitle = searchTitle
-      ? card.title.toLowerCase().includes(searchTitle.toLowerCase())
+    const matchTitle = normalizedSearch
+      ? card.title.toLowerCase().includes(normalizedSearch)
       : true;
     return matchCategory && matchTitle;
   });
@@ -30,7 +47,7 @@ const CardListWithFilter = ({searchTitle, setSearchTitle}: CardListWithFilterPro
     <div>
       {/* Кнопка НАЗАД  для ПОИСКА || КАТЕГОРИИ */}
       <div className={styles.backButtonWrapper}>
-        {(searchTitle || selectedCategory) && (
+        {(searchTitle.trim() || selectedCategory) && (
           <BackButton
             onClick={() => {
               setSearchTitle('');
@@ -50,9 +67,12 @@ const CardListWithFilter = ({searchTitle, setSearchTitle}: CardListWithFilterPro
         {filteredCards.map(card => (
           <Card
             key={card.id}
+            id={card.id}
             title={card.title}
             description={card.description}
             category={card.category}
+            isFavorite={card.isFavorite}
+            onToggleFavorite={toggleFavorite}
           />
         ))}
       </div>
