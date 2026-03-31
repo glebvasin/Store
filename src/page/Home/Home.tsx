@@ -1,26 +1,20 @@
-import React, {useCallback, useMemo, useState} from 'react';
+import {TProductWithFavorite, TProduct} from 'api/products/types';
+import {useState, useCallback, useMemo, useEffect} from 'react';
+import React from 'react';
 
+import Button from '@components/button/basic/Button';
 import Header from '@components/header/Header';
 import CardListWithFilter from '@components/сardListWithFilter/CardListWithFilter';
-import {cards as initialCards} from '@components/сardListWithFilter/cards/helper';
 
-import styles from './home.module.scss';
-interface CardType {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  isFavorite: boolean;
-}
-// interface HomeProps {}
+const DEFAULT_PAGE_SIZE = 5;
 
 const HomePage = () => {
+  const [cards, setCards] = useState<TProductWithFavorite[]>([]);
+  const [skip, setSkip] = useState(0);
+  const [total, setTotal] = useState(0);
+
   const [searchTitle, setSearchTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-
-  const [cards, setCards] = useState<CardType[]>(
-    initialCards.map(card => ({...card, isFavorite: false})),
-  );
 
   const toggleFavorite = useCallback((id: number) => {
     setCards(prev =>
@@ -30,8 +24,28 @@ const HomePage = () => {
 
   const favorites = useMemo(() => cards.filter(card => card.isFavorite), [cards]);
 
+  const loadCards = useCallback(() => {
+    fetch(`https://dummyjson.com/products?limit=${DEFAULT_PAGE_SIZE}&skip=${skip}`)
+      .then(res => res.json())
+      .then(data => {
+        const newCards = data.products.map((card: TProduct) => ({
+          ...card,
+          isFavorite: false,
+        }));
+
+        setCards(prev => [...prev, ...newCards]);
+        setSkip(prev => prev + DEFAULT_PAGE_SIZE);
+        setTotal(data.total);
+      });
+  }, [skip]);
+
+  // первый рендер
+  useEffect(() => {
+    loadCards();
+  }, []);
+
   return (
-    <div className={styles.home}>
+    <div>
       <Header
         searchTitle={searchTitle}
         setSearchTitle={setSearchTitle}
@@ -39,6 +53,7 @@ const HomePage = () => {
         toggleFavorite={toggleFavorite}
         cards={cards}
       />
+
       <CardListWithFilter
         searchTitle={searchTitle}
         setSearchTitle={setSearchTitle}
@@ -46,7 +61,11 @@ const HomePage = () => {
         setSelectedCategory={setSelectedCategory}
         cards={cards}
         toggleFavorite={toggleFavorite}
+        numberCard={numberCard}
+        setNumberCard={setNumberCard}
       />
+
+      {cards.length < total && <Button onClick={loadCards}>Ещё</Button>}
     </div>
   );
 };

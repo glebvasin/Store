@@ -2,10 +2,11 @@ import React from 'react';
 
 import Button from '@components/button/basic/Button';
 
-import CategoryDropdown from '../dropdown/CategoryDropdown';
+import CategoryDropdown from '../dropdown/category/CategoryDropdown';
+import NumberCardDropdown from '../dropdown/numberСard/NumberCardDropdown';
 
+import Card from './card/Card';
 import styles from './cardListWithFilter.module.scss';
-import Card from './cards/card/Card';
 
 interface CardType {
   id: number;
@@ -14,6 +15,7 @@ interface CardType {
   category: string;
   isFavorite: boolean;
 }
+
 interface CardListWithFilterProps {
   searchTitle: string;
   setSearchTitle: (title: string) => void;
@@ -21,6 +23,10 @@ interface CardListWithFilterProps {
   setSelectedCategory: (category: string) => void;
   cards: CardType[];
   toggleFavorite: (id: number) => void;
+
+  // новый проп для дропдауна количества карточек
+  numberCard: number;
+  setNumberCard: (value: number) => void;
 }
 
 const CardListWithFilter = ({
@@ -30,22 +36,24 @@ const CardListWithFilter = ({
   setSelectedCategory,
   cards,
   toggleFavorite,
+  numberCard,
+  setNumberCard,
 }: CardListWithFilterProps) => {
-  // собираем уникальные категории из массива карточек
-  const categories = Array.from(new Set(cards.map((card: CardType) => card.category)));
+  const categories = Array.from(new Set(cards.map(card => card.category)));
 
   const normalizedSearch = searchTitle.trim().toLowerCase();
 
-  const filteredCards = cards.filter((card: CardType) => {
+  const filteredCards = cards.filter(card => {
     const matchCategory = selectedCategory ? card.category === selectedCategory : true;
     const matchTitle = normalizedSearch
       ? card.title.toLowerCase().includes(normalizedSearch)
       : true;
     return matchCategory && matchTitle;
   });
+
   return (
     <div>
-      {/* Кнопка НАЗАД  для ПОИСКА || КАТЕГОРИИ */}
+      {/* Кнопка НАЗАД для поиска / фильтрации */}
       <div className={styles.backButtonWrapper}>
         {(searchTitle.trim() || selectedCategory) && (
           <Button
@@ -54,16 +62,24 @@ const CardListWithFilter = ({
               setSearchTitle('');
               setSelectedCategory('');
             }}>
-            {'НАЗАД'}
+            НАЗАД
           </Button>
         )}
       </div>
 
-      <CategoryDropdown
-        categories={categories}
-        selected={selectedCategory}
-        onChange={setSelectedCategory}
-      />
+      <div className={styles.controlsRow}>
+        <CategoryDropdown
+          categories={categories}
+          selected={selectedCategory}
+          onChange={setSelectedCategory}
+        />
+
+        <NumberCardDropdown
+          value={numberCard}
+          onChange={setNumberCard}
+          placeholder="Количество карточек"
+        />
+      </div>
 
       <div className={styles.grid}>
         {filteredCards.map(card => (

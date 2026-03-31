@@ -3,3 +3,10 @@
   flex-direction: column; /* элементы сверху вниз */
   gap: 20px; /* расстояние между Header и main */
 }
+
+.controls {
+  display: flex;
+  align-items: center; /* выравнивание по вертикали */
+  justify-content: space-between; /* карточки слева, dropdown справа */
+  margin-bottom: 20px;
+}

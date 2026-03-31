@@ -4,7 +4,7 @@ import BaseModalWindow from '@components/baseModalWindow/BaseModalWindow';
 import Button from '@components/button/basic/Button';
 import FavoriteButton from '@components/button/favorite/FavoriteButton';
 import Search from '@components/header/search/Search';
-import Card from '@components/сardListWithFilter/cards/card/Card';
+import Card from '@components/сardListWithFilter/card/Card';
 
 import styles from './header.module.scss';
 interface CardType {

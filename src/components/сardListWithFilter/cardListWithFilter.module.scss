@@ -23,3 +23,10 @@
     background-color: #e0e0e0;
   }
 }
+
+.controlsRow {
+  display: flex;
+  justify-content: space-between; // один слева, другой справа
+  align-items: center; // выравнивание по вертикали
+  margin-bottom: 16px;
+}

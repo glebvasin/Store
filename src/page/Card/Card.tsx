@@ -1,36 +1,41 @@
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 
-import React from 'react';
+import {TProduct} from 'api/products/types';
+import React, {useEffect, useState} from 'react';
 
-import Button from '@components/button/basic/Button';
-import {cards as initialCards} from '@components/сardListWithFilter/cards/helper';
+import PageWrapper from './Wrapper';
 
 const CardPage = () => {
   const {id} = useParams();
-  const navigate = useNavigate(); // <-- хук для навигации
+  const [loading, setLoading] = useState(true);
+
+  const [card, setCard] = useState<TProduct | null>(null);
 
   const cardId = Number(id);
-  console.log(cardId);
-  const card = initialCards.find(c => c.id === cardId);
 
-  const goHome = () => navigate('/');
+  useEffect(() => {
+    if (!cardId) return;
+
+    fetch(`https://dummyjson.com/products/${cardId}`)
+      .then(res => res.json())
+      .then(data => setCard(data))
+      .finally(() => setLoading(false));
+  }, [cardId]);
+
+  if (loading) {
+    return <PageWrapper>Загрузка...</PageWrapper>;
+  }
 
   if (!card) {
-    return (
-      <div>
-        <Button onClick={goHome}>Главная</Button>
-        <div>Карточка не найдена</div>
-      </div>
-    );
+    return <PageWrapper>Карточка не найдена</PageWrapper>;
   }
 
   return (
-    <div>
-      <Button onClick={goHome}>Главная</Button>
+    <PageWrapper>
       <h1>{card.title}</h1>
       <p>{card.description}</p>
       <p>Категория: {card.category}</p>
-    </div>
+    </PageWrapper>
   );
 };
 
