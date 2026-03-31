@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
 import BaseModalWindow from '@components/baseModalWindow/BaseModalWindow';
-import Button from '@components/buttons/basicButton/Button';
-import FavoriteButton from '@components/buttons/favoriteButton/FavoriteButton';
+import Button from '@components/button/basic/Button';
+import FavoriteButton from '@components/button/favorite/FavoriteButton';
 import Search from '@components/header/search/Search';
 import Card from '@components/сardListWithFilter/cards/card/Card';
 

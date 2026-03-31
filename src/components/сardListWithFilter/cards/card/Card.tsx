@@ -1,7 +1,9 @@
+import {useNavigate} from 'react-router-dom';
+
 import React from 'react';
 
-import Button from '@components/buttons/basicButton/Button';
-import FavoriteButton from '@components/buttons/favoriteButton/FavoriteButton';
+import Button from '@components/button/basic/Button';
+import FavoriteButton from '@components/button/favorite/FavoriteButton';
 
 import styles from './card.module.scss';
 
@@ -15,8 +17,10 @@ interface CardProps {
 }
 
 const Card = ({id, title, description, category, isFavorite, onToggleFavorite}: CardProps) => {
+  const navigate = useNavigate();
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => navigate(`/card/${id}`)}>
       <div className={styles.cardHeader}>
         <FavoriteButton isFavorite={isFavorite} onClick={() => onToggleFavorite(id)} />
       </div>
