@@ -1,10 +1,10 @@
-import {TProductWithFavorite, TProduct} from 'api/products/types';
-import {useState, useCallback, useMemo, useEffect} from 'react';
-import React from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 
 import Button from '@components/button/basic/Button';
 import Header from '@components/header/Header';
 import CardListWithFilter from '@components/сardListWithFilter/CardListWithFilter';
+
+import {TProduct, TProductWithFavorite} from '../../api/products/types';
 
 const DEFAULT_PAGE_SIZE = 5;
 
@@ -15,6 +15,7 @@ const HomePage = () => {
 
   const [searchTitle, setSearchTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [numberCard, setNumberCard] = useState(5);
 
   const toggleFavorite = useCallback((id: number) => {
     setCards(prev =>

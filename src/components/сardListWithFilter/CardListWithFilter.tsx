@@ -24,7 +24,6 @@ interface CardListWithFilterProps {
   cards: CardType[];
   toggleFavorite: (id: number) => void;
 
-  // новый проп для дропдауна количества карточек
   numberCard: number;
   setNumberCard: (value: number) => void;
 }
@@ -45,15 +44,17 @@ const CardListWithFilter = ({
 
   const filteredCards = cards.filter(card => {
     const matchCategory = selectedCategory ? card.category === selectedCategory : true;
+
     const matchTitle = normalizedSearch
       ? card.title.toLowerCase().includes(normalizedSearch)
       : true;
+
     return matchCategory && matchTitle;
   });
 
   return (
     <div>
-      {/* Кнопка НАЗАД для поиска / фильтрации */}
+      {/* Кнопка НАЗАД */}
       <div className={styles.backButtonWrapper}>
         {(searchTitle.trim() || selectedCategory) && (
           <Button
@@ -67,6 +68,7 @@ const CardListWithFilter = ({
         )}
       </div>
 
+      {/* Фильтры */}
       <div className={styles.controlsRow}>
         <CategoryDropdown
           categories={categories}
@@ -81,8 +83,9 @@ const CardListWithFilter = ({
         />
       </div>
 
+      {/* Список карточек */}
       <div className={styles.grid}>
-        {filteredCards.map(card => (
+        {filteredCards.slice(0, numberCard).map(card => (
           <Card
             key={card.id}
             id={card.id}
