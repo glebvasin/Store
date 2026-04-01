@@ -2,8 +2,7 @@ import React from 'react';
 
 import Button from '@components/button/basic/Button';
 
-import CategoryDropdown from '../dropdown/category/CategoryDropdown';
-import NumberCardDropdown from '../dropdown/numberСard/NumberCardDropdown';
+import MainSelectDropdown from '../dropdown/mainSelectDropdown/MainSelectDropdown';
 
 import Card from './card/Card';
 import styles from './cardListWithFilter.module.scss';
@@ -66,17 +65,18 @@ const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
 
       {/* Фильтры */}
       <div className={styles.controlsRow}>
-        <CategoryDropdown
-          categories={categories}
-          selected={selectedCategory}
+        <MainSelectDropdown
+          value={selectedCategory}
           onChange={setSelectedCategory}
+          placeholder="Все категории"
+          options={categories.map(cat => ({value: cat, label: cat}))}
         />
 
-        <NumberCardDropdown
+        <MainSelectDropdown
           value={numberCard}
           onChange={setNumberCard}
           placeholder="Количество карточек"
-          options={[3, 5, 10, 15]}
+          options={[3, 5, 10, 15].map(n => ({value: n, label: String(n)}))}
         />
       </div>
 
