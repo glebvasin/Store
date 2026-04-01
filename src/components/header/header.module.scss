@@ -16,3 +16,33 @@
   margin: 0 10px;
   padding: 5px 10px;
 }
+
+/* Новый контейнер для кнопок */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  position: relative;
+  z-index: 2;
+}
+
+/* Общий стиль для всех кнопок внутри actions */
+.actionButton,
+.actions button {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+
+  &:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+  }
+}
