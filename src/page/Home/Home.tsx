@@ -9,8 +9,11 @@ import {TProduct, TProductWithFavorite} from '../../api/products/types';
 const DEFAULT_PAGE_SIZE = 5;
 
 const HomePage = () => {
+  // текущие загруженные карточки
   const [cards, setCards] = useState<TProductWithFavorite[]>([]);
+  // сколько карточек уже загружено с сервера
   const [skip, setSkip] = useState(0);
+  // всего карточек на сервере
   const [total, setTotal] = useState(0);
 
   const [searchTitle, setSearchTitle] = useState('');
