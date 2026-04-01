@@ -22,7 +22,13 @@ const Card = ({id, title, description, category, isFavorite, onToggleFavorite}: 
   return (
     <div className={styles.card} onClick={() => navigate(`/card/${id}`)}>
       <div className={styles.cardHeader}>
-        <FavoriteButton isFavorite={isFavorite} onClick={() => onToggleFavorite(id)} />
+        <FavoriteButton
+          isFavorite={isFavorite}
+          onClick={e => {
+            e.stopPropagation(); // остановка всплытия
+            onToggleFavorite(id); // вызываем свой коллбек
+          }}
+        />
       </div>
       <img className={styles.cardImage} src="!#" alt={title} />
       <h1 className={styles.cardTitle}>{title}</h1>

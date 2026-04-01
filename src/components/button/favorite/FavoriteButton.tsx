@@ -4,7 +4,7 @@ import styles from './favoriteButton.module.scss';
 
 interface FavoriteButtonProps {
   isFavorite?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void; // добавляем event
   isHeaderButton?: boolean;
 }
 
@@ -14,7 +14,7 @@ const FavoriteButton = ({
   isHeaderButton = false,
 }: FavoriteButtonProps) => {
   return (
-    <button className={styles.button} onClick={onClick}>
+    <button className={styles.button} onClick={e => onClick && onClick(e)}>
       <svg
         viewBox="0 0 24 24"
         className={`${styles.icon} ${isFavorite && !isHeaderButton ? styles.active : ''}`}>
