@@ -3,10 +3,10 @@ import React from 'react';
 import styles from './numberCardDropdown.module.scss';
 
 interface NumberCardDropdownProps {
-  value: number; // выбранное число карточек
-  onChange: (value: number) => void; // коллбек при выборе
-  placeholder?: string; // текст по умолчанию
-  options?: number[]; // варианты для выбора
+  value: number | '';
+  onChange: (value: number) => void;
+  placeholder?: string;
+  options?: number[];
 }
 
 const NumberCardDropdown: React.FC<NumberCardDropdownProps> = ({
@@ -20,11 +20,9 @@ const NumberCardDropdown: React.FC<NumberCardDropdownProps> = ({
       className={styles.dropdown}
       value={value}
       onChange={e => onChange(Number(e.target.value))}>
-      {/* placeholder скрыт при выборе значения */}
-      <option value="" disabled hidden>
+      <option value="" disabled>
         {placeholder}
       </option>
-
       {options.map(opt => (
         <option key={opt} value={opt}>
           {opt}

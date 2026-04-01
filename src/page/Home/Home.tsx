@@ -15,7 +15,9 @@ const HomePage = () => {
 
   const [searchTitle, setSearchTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [numberCard, setNumberCard] = useState(5);
+
+  // выбранное количество для добавления карточек через кнопку Ещё
+  const [numberCard, setNumberCard] = useState<number | ''>('');
 
   const toggleFavorite = useCallback((id: number) => {
     setCards(prev =>
@@ -25,24 +27,28 @@ const HomePage = () => {
 
   const favorites = useMemo(() => cards.filter(card => card.isFavorite), [cards]);
 
-  const loadCards = useCallback(() => {
-    fetch(`https://dummyjson.com/products?limit=${DEFAULT_PAGE_SIZE}&skip=${skip}`)
-      .then(res => res.json())
-      .then(data => {
-        const newCards = data.products.map((card: TProduct) => ({
-          ...card,
-          isFavorite: false,
-        }));
+  const loadCards = useCallback(
+    (count?: number) => {
+      const limit = count ?? DEFAULT_PAGE_SIZE; // если ничего не выбрано — 5
+      fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
+        .then(res => res.json())
+        .then(data => {
+          const newCards = data.products.map((card: TProduct) => ({
+            ...card,
+            isFavorite: false,
+          }));
 
-        setCards(prev => [...prev, ...newCards]);
-        setSkip(prev => prev + DEFAULT_PAGE_SIZE);
-        setTotal(data.total);
-      });
-  }, [skip]);
+          setCards(prev => [...prev, ...newCards]); // добавляем к уже отображаемым
+          setSkip(prev => prev + limit);
+          setTotal(data.total);
+        });
+    },
+    [skip],
+  );
 
-  // первый рендер
+  // первый рендер — сразу подгружаем 5 карточек
   useEffect(() => {
-    loadCards();
+    loadCards(DEFAULT_PAGE_SIZE);
   }, []);
 
   return (
@@ -66,7 +72,17 @@ const HomePage = () => {
         setNumberCard={setNumberCard}
       />
 
-      {cards.length < total && <Button onClick={loadCards}>Ещё</Button>}
+      {/* Кнопка Ещё */}
+      {cards.length < total && (
+        <div style={{marginTop: 16}}>
+          <Button
+            onClick={() =>
+              loadCards(typeof numberCard === 'number' ? numberCard : DEFAULT_PAGE_SIZE)
+            }>
+            Ещё
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

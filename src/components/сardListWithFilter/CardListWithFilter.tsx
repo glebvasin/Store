@@ -23,12 +23,11 @@ interface CardListWithFilterProps {
   setSelectedCategory: (category: string) => void;
   cards: CardType[];
   toggleFavorite: (id: number) => void;
-
-  numberCard: number;
+  numberCard: number | '';
   setNumberCard: (value: number) => void;
 }
 
-const CardListWithFilter = ({
+const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
   searchTitle,
   setSearchTitle,
   selectedCategory,
@@ -37,18 +36,15 @@ const CardListWithFilter = ({
   toggleFavorite,
   numberCard,
   setNumberCard,
-}: CardListWithFilterProps) => {
+}) => {
   const categories = Array.from(new Set(cards.map(card => card.category)));
-
   const normalizedSearch = searchTitle.trim().toLowerCase();
 
   const filteredCards = cards.filter(card => {
     const matchCategory = selectedCategory ? card.category === selectedCategory : true;
-
     const matchTitle = normalizedSearch
       ? card.title.toLowerCase().includes(normalizedSearch)
       : true;
-
     return matchCategory && matchTitle;
   });
 
@@ -80,12 +76,13 @@ const CardListWithFilter = ({
           value={numberCard}
           onChange={setNumberCard}
           placeholder="Количество карточек"
+          options={[3, 5, 10, 15]}
         />
       </div>
 
       {/* Список карточек */}
       <div className={styles.grid}>
-        {filteredCards.slice(0, numberCard).map(card => (
+        {filteredCards.map(card => (
           <Card
             key={card.id}
             id={card.id}
