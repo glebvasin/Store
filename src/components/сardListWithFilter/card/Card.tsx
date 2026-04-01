@@ -12,11 +12,20 @@ interface CardProps {
   title: string;
   description: string;
   category: string;
+  images: string[];
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
 }
 
-const Card = ({id, title, description, category, isFavorite, onToggleFavorite}: CardProps) => {
+const Card = ({
+  id,
+  title,
+  description,
+  category,
+  images,
+  isFavorite,
+  onToggleFavorite,
+}: CardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -25,12 +34,12 @@ const Card = ({id, title, description, category, isFavorite, onToggleFavorite}: 
         <FavoriteButton
           isFavorite={isFavorite}
           onClick={e => {
-            e.stopPropagation(); // остановка всплытия
-            onToggleFavorite(id); // вызываем свой коллбек
+            e.stopPropagation();
+            onToggleFavorite(id);
           }}
         />
       </div>
-      <img className={styles.cardImage} src="!#" alt={title} />
+      <img className={styles.cardImage} src={images[0]} alt={title} />
       <h1 className={styles.cardTitle}>{title}</h1>
       <p className={styles.cardDescription}>{description}</p>
       <p className={styles.cardCategory}>Категория: {category}</p>

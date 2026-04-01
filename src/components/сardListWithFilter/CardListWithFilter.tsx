@@ -12,6 +12,7 @@ interface CardType {
   title: string;
   description: string;
   category: string;
+  images: string[];
   isFavorite: boolean;
 }
 
@@ -89,6 +90,7 @@ const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
             title={card.title}
             description={card.description}
             category={card.category}
+            images={card.images}
             isFavorite={card.isFavorite}
             onToggleFavorite={toggleFavorite}
           />

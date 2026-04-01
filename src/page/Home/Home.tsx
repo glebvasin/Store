@@ -39,6 +39,7 @@ const HomePage = () => {
           const newCards = data.products.map((card: TProduct) => ({
             ...card,
             isFavorite: false,
+            images: card.images,
           }));
 
           setCards(prev => [...prev, ...newCards]); // добавляем к уже отображаемым

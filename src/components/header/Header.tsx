@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
-import BaseModalWindow from '@components/baseModalWindow/BaseModalWindow';
 import Button from '@components/button/basic/Button';
 import FavoriteButton from '@components/button/favorite/FavoriteButton';
 import Search from '@components/header/search/Search';
+import BaseModalWindow from '@components/modal/baseModalWindow/BaseModalWindow';
 import LoginModal from '@components/modal/login/LoginModal';
 import Card from '@components/сardListWithFilter/card/Card';
 
@@ -13,6 +13,7 @@ interface CardType {
   title: string;
   description: string;
   category: string;
+  images: string[];
   isFavorite: boolean;
 }
 
@@ -65,7 +66,6 @@ const Header = ({setSearchTitle, searchTitle, favorites, toggleFavorite}: Header
           type="button"
           className={styles.actionButton}
           onClick={() => {
-            console.log('клик на вход');
             setIsLoginOpen(true);
           }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -92,6 +92,7 @@ const Header = ({setSearchTitle, searchTitle, favorites, toggleFavorite}: Header
                   title={card.title}
                   description={card.description}
                   category={card.category}
+                  images={card.images}
                   isFavorite={card.isFavorite}
                   onToggleFavorite={toggleFavorite}
                 />
