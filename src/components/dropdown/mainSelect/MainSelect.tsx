@@ -12,14 +12,22 @@ interface MainSelectDropdownProps {
   onChange: (value: string) => void;
   options: Option[];
   placeholder?: string;
+  placeholderValue?: string;
 }
 
-const MainSelectDropdown = ({value, onChange, options, placeholder}: MainSelectDropdownProps) => {
+const MainSelectDropdown = ({
+  value,
+  onChange,
+  options,
+  placeholder,
+  placeholderValue,
+}: MainSelectDropdownProps) => {
   return (
     <select className={styles.dropdown} value={value} onChange={e => onChange(e.target.value)}>
-      <option value="">{placeholder}</option>
+      {placeholder && <option value={placeholderValue || ''}>{placeholder}</option>}
+
       {options.map(opt => (
-        <option key={String(opt.value)} value={opt.value}>
+        <option key={opt.value} value={opt.value}>
           {opt.label}
         </option>
       ))}
