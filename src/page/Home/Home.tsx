@@ -20,7 +20,7 @@ const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   // выбранное количество для добавления карточек через кнопку Ещё
-  const [numberCard, setNumberCard] = useState<number | ''>('');
+  const [numberCard, setNumberCard] = useState(0);
 
   const toggleFavorite = useCallback((id: number) => {
     setCards(prev =>
@@ -32,14 +32,13 @@ const HomePage = () => {
 
   const loadCards = useCallback(
     (count?: number) => {
-      const limit = count ?? DEFAULT_PAGE_SIZE; // если ничего не выбрано — 5
+      const limit = count || DEFAULT_PAGE_SIZE; // если ничего не выбрано — 5
       fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`)
         .then(res => res.json())
         .then(data => {
           const newCards = data.products.map((card: TProduct) => ({
             ...card,
             isFavorite: false,
-            images: card.images,
           }));
 
           setCards(prev => [...prev, ...newCards]); // добавляем к уже отображаемым
@@ -79,12 +78,7 @@ const HomePage = () => {
       {/* Кнопка Ещё */}
       {cards.length < total && (
         <div style={{marginTop: 16}}>
-          <Button
-            onClick={() =>
-              loadCards(typeof numberCard === 'number' ? numberCard : DEFAULT_PAGE_SIZE)
-            }>
-            Ещё
-          </Button>
+          <Button onClick={() => loadCards(numberCard)}>Ещё</Button>
         </div>
       )}
     </div>

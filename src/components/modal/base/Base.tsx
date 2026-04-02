@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '@components/button/basic/Button';
 
-import styles from './baseModalWindow.module.scss';
+import styles from './base.module.scss';
 
 interface BaseModalWindowProps {
   isOpen: boolean; // открыто или нет

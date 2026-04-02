@@ -2,7 +2,7 @@ import React from 'react';
 
 import Button from '@components/button/basic/Button';
 
-import MainSelectDropdown from '../dropdown/mainSelectDropdown/MainSelectDropdown';
+import MainSelectDropdown from '../dropdown/mainSelect/MainSelect';
 
 import Card from './card/Card';
 import styles from './cardListWithFilter.module.scss';
@@ -23,7 +23,7 @@ interface CardListWithFilterProps {
   setSelectedCategory: (category: string) => void;
   cards: CardType[];
   toggleFavorite: (id: number) => void;
-  numberCard: number | '';
+  numberCard: number;
   setNumberCard: (value: number) => void;
 }
 
@@ -74,10 +74,10 @@ const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
         />
 
         <MainSelectDropdown
-          value={numberCard}
-          onChange={setNumberCard}
+          value={String(numberCard)}
+          onChange={str => setNumberCard(Number(str))}
           placeholder="Количество карточек"
-          options={[3, 5, 10, 15].map(n => ({value: n, label: String(n)}))}
+          options={['3', '5', '10', '15'].map(n => ({value: n, label: n}))}
         />
       </div>
 

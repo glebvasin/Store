@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import Button from '@components/button/basic/Button';
 import FavoriteButton from '@components/button/favorite/FavoriteButton';
 import Search from '@components/header/search/Search';
-import BaseModalWindow from '@components/modal/baseModalWindow/BaseModalWindow';
-import LoginModal from '@components/modal/login/LoginModal';
+import BaseModalWindow from '@components/modal/base/Base';
+import LoginModal from '@components/modal/login/Login';
 import Card from '@components/сardListWithFilter/card/Card';
 
 import styles from './header.module.scss';

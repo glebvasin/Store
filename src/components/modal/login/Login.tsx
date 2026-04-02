@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
 import Button from '@components/button/basic/Button';
-import BaseModalWindow from '@components/modal/baseModalWindow/BaseModalWindow';
+import BaseModalWindow from '@components/modal/base/Base';
 
-import styles from './loginModal.module.scss';
+import styles from './login.module.scss';
 
 interface LoginModalProps {
   isOpen: boolean;
