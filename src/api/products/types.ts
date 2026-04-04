@@ -10,3 +10,10 @@ export type TProduct = {
 export type TProductWithFavorite = TProduct & {
   isFavorite: boolean;
 };
+
+export type TDataProducts = {
+  limit: number;
+  products: TProduct[];
+  skip: number;
+  total: number;
+};

@@ -24,6 +24,8 @@
       "@assets/*": ["assets/*"],
       "@common/*": ["components/common/*"],
       "@components/*": ["components/*"],
+      "@api/*": ["api/*"],
+
       "@constants/*": ["constants/*"],
       "@hooks/*": ["hooks/*"],
       "@lib/*": ["lib/*"],

@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import {useGetCategoryListQuery} from '@api/products/api';
+import React from 'react';
 
 import Button from '@components/button/basic/Button';
 
@@ -47,22 +48,10 @@ const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
   total,
   loading,
 }) => {
-  const [categories, setCategories] = useState<string[]>([]);
-  useEffect(() => {
-    fetch('https://dummyjson.com/products/category-list')
-      .then(res => res.json())
-      .then((data: string[]) => setCategories(data))
-      .catch(() => setCategories([]));
-  }, []);
-
-  // const categories = Array.from(new Set(cards.map(card => card.category)));
-  // const normalizedSearch = searchTitle.trim().toLowerCase();
+  const {data: categories} = useGetCategoryListQuery();
 
   const filteredCards = cards.filter(card => {
     const matchCategory = selectedCategory ? card.category === selectedCategory : true;
-    // const matchTitle = normalizedSearch
-    //   ? card.title.toLowerCase().includes(normalizedSearch)
-    //   : true;
     return matchCategory;
   });
 
@@ -89,8 +78,8 @@ const CardListWithFilter: React.FC<CardListWithFilterProps> = ({
         <MainSelectDropdown
           value={selectedCategory}
           onChange={setSelectedCategory}
-          placeholder={categories.length === 0 ? 'Загрузка категорий...' : 'Все категории'}
-          options={categories.map(cat => ({value: cat, label: cat}))}
+          placeholder={categories?.length === 0 ? 'Загрузка категорий...' : 'Все категории'}
+          options={categories?.map(cat => ({value: cat, label: cat})) || []}
         />
 
         <MainSelectDropdown

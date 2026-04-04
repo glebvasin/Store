@@ -1,15 +1,11 @@
+import {useGetProductsQuery} from '@api/products/api';
+import {TProductWithFavorite, TProduct} from '@api/products/types';
 import React, {useState, useEffect, useCallback, useMemo} from 'react';
 
 import Header from '@components/header/Header';
 import CardListWithFilter from '@components/сardListWithFilter/CardListWithFilter';
 
-import {TProduct, TProductWithFavorite} from '../../api/products/types';
-
 const HomePage = () => {
-  // текущие загруженные карточки
-  const [cards, setCards] = useState<TProductWithFavorite[]>([]);
-  // всего карточек на сервере
-  const [total, setTotal] = useState(0);
   const [searchTitle, setSearchTitle] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState(searchTitle);
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -17,16 +13,10 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(20);
 
-  const [loading, setLoading] = useState(true);
+  //  хранение избранного отдельно
+  const [favoritesMap, setFavoritesMap] = useState<Record<number, boolean>>({});
 
-  const toggleFavorite = useCallback((id: number) => {
-    setCards(prev =>
-      prev.map(card => (card.id === id ? {...card, isFavorite: !card.isFavorite} : card)),
-    );
-  }, []);
-
-  const favorites = useMemo(() => cards.filter(card => card.isFavorite), [cards]);
-
+  // debounce поиска
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearch(searchTitle);
@@ -35,30 +25,38 @@ const HomePage = () => {
     return () => clearTimeout(handler);
   }, [searchTitle]);
 
-  const loadCards = useCallback(() => {
-    const skip = (page - 1) * pageSize;
+  // pagination → skip
+  const skip = (page - 1) * pageSize;
 
-    fetch(
-      `https://dummyjson.com/products/search?q=${debouncedSearch.trim()}&limit=${pageSize}&skip=${skip}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        const newCards = data.products.map((card: TProduct) => ({
-          ...card,
-          isFavorite: false,
-        }));
+  // 🔥 RTK Query
+  const {data, isLoading} = useGetProductsQuery({
+    debouncedSearch,
+    pageSize,
+    skip,
+  });
 
-        setCards(newCards);
-        setTotal(data.total);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [page, pageSize, debouncedSearch]);
+  // переключение избранного
+  const toggleFavorite = useCallback((id: number) => {
+    setFavoritesMap(prev => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  }, []);
 
-  useEffect(() => {
-    loadCards();
-  }, [loadCards]);
+  // формирование карточек
+  const cards = useMemo<TProductWithFavorite[]>(() => {
+    if (!data) return [];
+
+    return data.products.map((card: TProduct) => ({
+      ...card,
+      isFavorite: !!favoritesMap[card.id],
+    }));
+  }, [data, favoritesMap]);
+
+  // список избранных
+  const favorites = useMemo(() => cards.filter(card => card.isFavorite), [cards]);
+
+  const total = data?.total ?? 0;
 
   return (
     <div>
@@ -82,7 +80,7 @@ const HomePage = () => {
         pageSize={pageSize}
         setPageSize={setPageSize}
         total={total}
-        loading={loading}
+        loading={isLoading}
       />
     </div>
   );

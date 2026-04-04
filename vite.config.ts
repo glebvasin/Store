@@ -38,6 +38,10 @@ export default defineConfig(({mode}) => {
           replacement: fileURLToPath(new URL('./src/components', import.meta.url)),
         },
         {
+          find: '@api',
+          replacement: fileURLToPath(new URL('./src/api', import.meta.url)),
+        },
+        {
           find: '@constants',
           replacement: fileURLToPath(new URL('./src/constants', import.meta.url)),
         },
